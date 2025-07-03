@@ -6,8 +6,8 @@ A Model Context Protocol (MCP) server for integrating with Bitbucket Cloud and S
 This is a safe and responsible package — no DELETE operations are used, so there’s no risk of data loss.
 Every pull request is analyzed with CodeQL to ensure the code remains secure.
 
-[![CodeQL](https://github.com/MatanYemini/bitbucket-mcp/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/MatanYemini/bitbucket-mcp/actions/workflows/github-code-scanning/codeql)
-[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/MatanYemini/bitbucket-mcp)
+[![CodeQL](https://github.com/CodingKeg/bitbucket-mcp/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/CodingKeg/bitbucket-mcp/actions/workflows/github-code-scanning/codeql)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/CodingKeg/bitbucket-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/bitbucket-mcp.svg)](https://www.npmjs.com/package/bitbucket-mcp)
 
@@ -28,9 +28,9 @@ The easiest way to use this MCP server is via NPX, which allows you to run it wi
 
 ```bash
 # Run with environment variables
-BITBUCKET_URL="https://bitbucket.org/your-workspace" \
-BITBUCKET_USERNAME="your-username" \
-BITBUCKET_PASSWORD="your-app-password" \
+BITBUCKET_WORKSPACE="quatico" \
+BITBUCKET_USERNAME="your-email" \
+BITBUCKET_PASSWORD="your-scoped-api-token" \
 npx -y bitbucket-mcp@latest
 ```
 
@@ -51,15 +51,34 @@ Then run it with:
 ```bash
 # If installed globally
 BITBUCKET_URL="https://bitbucket.org/your-workspace" \
-BITBUCKET_USERNAME="your-username" \
-BITBUCKET_PASSWORD="your-app-password" \
+BITBUCKET_USERNAME="your-email" \
+BITBUCKET_PASSWORD="your-scoped-api-token" \
 bitbucket-mcp
 
 # If installed in your project
 BITBUCKET_URL="https://bitbucket.org/your-workspace" \
-BITBUCKET_USERNAME="your-username" \
-BITBUCKET_PASSWORD="your-app-password" \
+BITBUCKET_USERNAME="your-email" \
+BITBUCKET_PASSWORD="your-scoped-api-token" \
 npx bitbucket-mcp
+```
+
+### Local Installation
+
+Alternatively, you can install it globally or as part of your project:
+
+```bash
+# Create package
+npm pack
+```
+
+Then run it with:
+
+```bash
+# If installed globally
+BITBUCKET_USERNAME="your-email" \
+BITBUCKET_PASSWORD="your-scoped-api-token" \
+BITBUCKET_WORKSPACE="quatico" \
+bitbucket-mcp@/Users/egemenkaba/IdeaProjects/bitbucket-mcp/bitbucket-mcp-4.2.0.tgz
 ```
 
 ## Configuration
@@ -69,12 +88,12 @@ npx bitbucket-mcp
 Configure the server using the following environment variables:
 
 | Variable              | Description                                                       | Required |
-| --------------------- | ----------------------------------------------------------------- | -------- |
+| --------------------- |-------------------------------------------------------------------|----------|
 | `BITBUCKET_URL`       | Bitbucket base URL (e.g., "https://bitbucket.org/your-workspace") | Yes      |
 | `BITBUCKET_USERNAME`  | Your Bitbucket username                                           | Yes\*    |
 | `BITBUCKET_PASSWORD`  | Your Bitbucket app password                                       | Yes\*    |
 | `BITBUCKET_TOKEN`     | Your Bitbucket access token (alternative to username/password)    | No       |
-| `BITBUCKET_WORKSPACE` | Default workspace to use when not specified                       | No       |
+| `BITBUCKET_WORKSPACE` | Default workspace to use when not specified (for us: quatico)     | Yes      |
 
 \* Either `BITBUCKET_TOKEN` or both `BITBUCKET_USERNAME` and `BITBUCKET_PASSWORD` must be provided.
 
@@ -86,6 +105,46 @@ Configure the server using the following environment variables:
    - Repositories: Read
    - Pull requests: Read, Write
 4. Copy the generated password and use it as the `BITBUCKET_PASSWORD` environment variable
+
+## Integration with IntelliJ
+
+To integrate this MCP server with Cursor:
+
+1. Open Cursor
+2. Go to Settings > Extensions
+3. Click on "Model Context Protocol"
+4. Add a new MCP configuration:
+
+```json
+"bitbucket": {
+  "command": "npx",
+  "env": {
+    "BITBUCKET_WORKSPACE": "quatico",
+    "BITBUCKET_USERNAME": "your-email",
+    "BITBUCKET_PASSWORD": "your-scoped-api-token"
+  },
+  "args": ["-y", "bitbucket-mcp@latest"]
+}
+```
+
+5. Save the configuration
+6. Use the "/bitbucket" command in Cursor to access Bitbucket repositories and pull requests
+
+### Using a Local Build with IntelliJ
+
+If you're developing locally and want to test your changes:
+
+```json
+"bitbucket-local": {
+  "command": "node",
+  "env": {
+    "BITBUCKET_URL": "https://bitbucket.org/your-workspace",
+    "BITBUCKET_USERNAME": "your-username",
+    "BITBUCKET_PASSWORD": "your-app-password"
+  },
+  "args": ["/path/to/your/local/bitbucket-mcp/dist/index.js"]
+}
+```
 
 ## Integration with Cursor
 
@@ -100,9 +159,8 @@ To integrate this MCP server with Cursor:
 "bitbucket": {
   "command": "npx",
   "env": {
-    "BITBUCKET_URL": "https://bitbucket.org/your-workspace",
-    "BITBUCKET_USERNAME": "your-username",
-    "BITBUCKET_PASSWORD": "your-app-password"
+    "BITBUCKET_WORKSPACE": "quatico",
+    "BITBUCKET_TOKEN": "your-scoped-api-token"
   },
   "args": ["-y", "bitbucket-mcp@latest"]
 }
@@ -119,9 +177,8 @@ If you're developing locally and want to test your changes:
 "bitbucket-local": {
   "command": "node",
   "env": {
-    "BITBUCKET_URL": "https://bitbucket.org/your-workspace",
-    "BITBUCKET_USERNAME": "your-username",
-    "BITBUCKET_PASSWORD": "your-app-password"
+   "BITBUCKET_WORKSPACE": "quatico",
+   "BITBUCKET_TOKEN": "your-scoped-api-token"
   },
   "args": ["/path/to/your/local/bitbucket-mcp/dist/index.js"]
 }
@@ -477,7 +534,7 @@ Lists commit statuses for a pull request.
 
 ```bash
 # Clone the repository
-git clone https://github.com/MatanYemini/bitbucket-mcp.git
+git clone https://github.com/CodingKeg/bitbucket-mcp.git
 cd bitbucket-mcp
 
 # Install dependencies
@@ -486,8 +543,8 @@ npm install
 # Build the project
 npm run build
 
-# Run in development mode
-npm run dev
+# Create local package
+npm pack
 ```
 
 ## License
@@ -496,7 +553,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Links
 
-- [GitHub Repository](https://github.com/MatanYemini/bitbucket-mcp)
+- [GitHub Repository](https://github.com/CodingKeg/bitbucket-mcp)
 - [npm Package](https://www.npmjs.com/package/bitbucket-mcp)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Bitbucket REST API - Pull Requests](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-pullrequests/)
