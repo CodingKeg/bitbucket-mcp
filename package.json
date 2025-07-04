@@ -1,5 +1,5 @@
 {
-  "name": "bitbucket-mcp",
+  "name": "@qs/bitbucket-mcp",
   "version": "0.1.0",
   "description": "Model Context Protocol (MCP) server for Bitbucket Cloud and Server API integration",
   "type": "module",
