@@ -3,6 +3,7 @@
 A Model Context Protocol (MCP) server for integrating with Bitbucket Cloud and Server APIs. This MCP server enables AI assistants like Cursor to interact with your Bitbucket repositories, pull requests, and other resources.
 
 ## Safety First
+
 This is a safe and responsible package — no DELETE operations are used, so there’s no risk of data loss.
 Every pull request is analyzed with CodeQL to ensure the code remains secure.
 
@@ -12,6 +13,7 @@ Every pull request is analyzed with CodeQL to ensure the code remains secure.
 [![npm version](https://badge.fury.io/js/bitbucket-mcp.svg)](https://www.npmjs.com/package/bitbucket-mcp)
 
 ## Overview
+
 Checkout out the [official npm package](https://www.npmjs.com/package/bitbucket-mcp)
 This server implements the Model Context Protocol standard to provide AI assistants with access to Bitbucket data and operations. It includes tools for:
 
@@ -40,10 +42,10 @@ Alternatively, you can install it globally or as part of your project:
 
 ```bash
 # Install globally
-npm install -g bitbucket-mcp
+pnpm add -g bitbucket-mcp
 
 # Or install in your project
-npm install bitbucket-mcp
+pnpm add bitbucket-mcp
 ```
 
 Then run it with:
@@ -68,7 +70,7 @@ Alternatively, you can install it globally or as part of your project:
 
 ```bash
 # Create package
-npm pack
+pnpm pack
 ```
 
 Then run it with:
@@ -89,7 +91,7 @@ Configure the server using the following environment variables:
 
 | Variable              | Description                                                       | Required |
 | --------------------- |-------------------------------------------------------------------|----------|
-| `BITBUCKET_URL`       | Bitbucket base URL (e.g., "https://bitbucket.org/your-workspace") | Yes      |
+| `BITBUCKET_URL`       | Bitbucket base URL (e.g., "<https://bitbucket.org/your-workspace>") | Yes      |
 | `BITBUCKET_USERNAME`  | Your Bitbucket username                                           | Yes\*    |
 | `BITBUCKET_PASSWORD`  | Your Bitbucket app password                                       | Yes\*    |
 | `BITBUCKET_TOKEN`     | Your Bitbucket access token (alternative to username/password)    | No       |
@@ -528,7 +530,7 @@ Lists commit statuses for a pull request.
 ### Prerequisites
 
 - Node.js 18 or higher
-- npm or yarn
+- pnpm
 
 ### Setup
 
@@ -538,13 +540,13 @@ git clone https://github.com/CodingKeg/bitbucket-mcp.git
 cd bitbucket-mcp
 
 # Install dependencies
-npm install
+pnpm install
 
 # Build the project
-npm run build
+pnpm run build
 
 # Create local package
-npm pack
+pnpm pack
 ```
 
 ## License
